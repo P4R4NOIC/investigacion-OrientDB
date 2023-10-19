@@ -42,7 +42,7 @@ function logIn(arroba,contrasena){
         
         let usuarioJSON = localStorage.getItem("usuario");
         var usuario = JSON.parse(usuarioJSON);
-        var contraUsuario = usuario.contra; 
+        var contraUsuario = usuario[0].Contra; 
         if(contrasena === contraUsuario){
             location.href = "../Archivos HTML/landingPage.html"
         }else{

@@ -4,13 +4,10 @@ var todosLosTweets = [{
                 "@class":"Tweet",
                 "FechaPublicacion":"2023-02-22 00:00:00",
                 "Retweets":"6",
-                "Comentarios":[{"arroba":"@dylan",
-                                "fechaComentado":"2023-02-22 00:00:00",
-                                "nombreUsuario":"Dylan Mora", 
-                                "comentario":"Comentario"}],
+                "Comentarios":[],
                 "Texto":"Demasiado Trabajo",
                 "nombreUsuario":"Fernando Gross",
-                "arroba":"@fgross"
+                "Username":"@fgross"
                 },
                 
 
@@ -19,23 +16,23 @@ var todosLosTweets = [{
                     "@class":"Tweet",
                     "FechaPublicacion":"2023-02-22 00:00:00",
                     "Retweets":"8",
-                    "Comentarios":[{"arroba":"@fgross",
+                    "Comentarios":[{"Username":"@fgross",
                                     "fechaComentado":"2023-02-22 00:00:00",
                                     "nombreUsuario":"Fernando Gross", 
                                     "comentario":"Chupela"},
 
-                                    {"arroba":"@fgross",
+                                    {"Username":"@fgross",
                                     "fechaComentado":"2023-02-22 00:00:00",
                                     "nombreUsuario":"Fernando Gross", 
                                     "comentario":"Roberto"},
 
-                                    {"arroba":"@fgross",
+                                    {"Username":"@fgross",
                                     "fechaComentado":"2023-02-22 00:00:00",
                                     "nombreUsuario":"Fernando Gross", 
                                     "comentario":"Trabaje"}],
                     "Texto":"Devuelveme a mi chica",
                     "nombreUsuario":"Roberto Vindas",
-                    "arroba":"@rvindas"
+                    "Username":"@rvindas"
                 }
             ];
 
@@ -90,7 +87,7 @@ function cargaTodosTweets(){
         var tweet = todosLosTweets[i]["Texto"];
         var numRetweets = parseInt(todosLosTweets[i]["Retweets"]);
         var numComments = todosLosTweets[i]["Comentarios"].length;
-        var headder = todosLosTweets[i]["nombreUsuario"] + "  " +  "- " + todosLosTweets[i]["arroba"] + "  " + "-" + "  " + todosLosTweets[i]["FechaPublicacion"]
+        var headder = todosLosTweets[i]["nombreUsuario"] + "  " +  "- " + todosLosTweets[i]["Username"] + "  " + "-" + "  " + todosLosTweets[i]["FechaPublicacion"]
         haceTweet(tweet, headder, numRetweets, numComments, todosLosTweets[i]["Comentarios"], todosLosTweets[i]["@rid"]);
         
     }
@@ -200,12 +197,12 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
     a4.onclick = function(){
         if(a4.getAttribute("click") == "no"){
 
-            console.log(a4.getAttribute("click"));
+         
           
-          
+            console.log(rid)
             console.log(comentariosLista);
             for(var i = 0; i < comentariosLista.length; i++){
-                var comentario = haceComentario(comentariosLista[i]["nombreUsuario"], comentariosLista[i]["arroba"], comentariosLista[i]["fechaComentado"], comentariosLista[i]["comentario"]);
+                var comentario = haceComentario(comentariosLista[i]["nombreUsuario"], comentariosLista[i]["Username"], comentariosLista[i]["fechaComentado"], comentariosLista[i]["comentario"]);
                 div1.appendChild(comentario);
             }
             a4.setAttribute("click", "si");
@@ -244,6 +241,7 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
         modal.show()
         actual = rid;
         a4.id = rid + "1";
+        
         div1.id = rid + "2";
         label6.id = rid + "3";
      
