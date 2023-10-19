@@ -1,51 +1,40 @@
 
-var jsonData = {
-"usuarios": [
+var jsonData = [
     {
-    "username": "usuario1",
-    "nombre": "Nombre1",
-    "segundonombre": "SegundoNombre1",
-    "primerapellido": "PrimerApellido1",
-    "segundoapellido": "SegundoApellido1"
+    "username": "fgross",
+    "nombre": "Fernando",
+    "segundonombre": "Jose",
+    "primerapellido": "Gross",
+    "segundoapellido": "Hernandez"
     },
     {
-    "username": "usuario2",
-    "nombre": "Nombre2",
-    "segundonombre": "SegundoNombre2",
-    "primerapellido": "PrimerApellido2",
-    "segundoapellido": "SegundoApellido2"
+    "username": "rvindas",
+    "nombre": "Roberto",
+    "segundonombre": "Daniel",
+    "primerapellido": "Vindas",
+    "segundoapellido": "Hernandez"
     },
     {
-    "username": "usuario3",
-    "nombre": "Nombre3",
-    "segundonombre": "SegundoNombre3",
-    "primerapellido": "PrimerApellido3",
-    "segundoapellido": "SegundoApellido3"
+    "username": "dylantables",
+    "nombre": "Dylan",
+    "segundonombre": "Andrey",
+    "primerapellido": "Mora",
+    "segundoapellido": "Corrales"
     }
-]
-};
+];
 
 var jsonString = JSON.stringify(jsonData);
 localStorage.setItem("todosUsuarios", jsonString);
   
 
 
-function activarModalError(){
-    var myModalEl = document.querySelector('#myModal')
+function activarModalBusqueda(){
+    var myModalEl = document.querySelector('#modalBusqueda')
     var modal = bootstrap.Modal.getOrCreateInstance(myModalEl)
     modal.show()
 }
 
 
-function cargarPagina(){
-    
-    //autenticar()
-    
-    //pedirPersonas();
-    cargarPersonas();
-
-    
-}
 
 function pedirPersonas(){
     let datosRecibidos;

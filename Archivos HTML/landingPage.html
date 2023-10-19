@@ -14,7 +14,10 @@
     <!-- JS -->
     <script type = "text/javaScript" src = "../Archivos JS/landingPage.js"></script>
     <script type = "text/javaScript" src = "../Archivos JS/buscarUsuario.js"></script>
+    <script type = "text/javaScript" src = "../Archivos JS/posts.js"></script>
+    <script type = "text/javaScript" src = "../Archivos JS/seguidor.js"></script>
 </head>
+
 <body onload="cargarPagina()" class = "body">
 
     <!-- Navbar -->
@@ -29,8 +32,8 @@
                         <a class="nav-link" aria-current="page" href="landingPage.html">Inicio</a>
                         <a class="nav-link" href="#">TECs</a>
                         <a class="nav-link" href="#">ReTECs</a>
-                        <a class="nav-link" href="#" onclick="activarModalError()">Buscar @Usuario</a>
-                        <a class="nav-link" href="#">Seguidores</a>
+                        <a class="nav-link" href="#" onclick="activarModalBusqueda()">Buscar @Usuario</a>
+                        <a class="nav-link" href="#" onclick="activarModalVerSeguidores()">Seguidores</a>
                         
                 </div>
             </div>
@@ -60,114 +63,30 @@
                     <label for="" class = "textos sigue init">Fecha de Nacimiento: </label>
                     <label for="" class = "textos sigue">06/12/2002</label>
                 </div>
-                
+                <div>
+                    <label for="" class = "textos sigue init">Nombre de Usuario: </label>
+                    <label for="" class = "textos sigue">Fernando Gross</label>
+                </div>
+                <div>
+                    <label for="" class = "textos sigue init">Usuario: </label>
+                    <label for="" class = "textos sigue">@fgross</label>
+                </div>
+               
             </div>
-            
+            <a class="boton botonCrea" type="submit" onclick="activarModalCrearPost()" role="button">+</a>
         </div>
 
         
 
         <div class="principal" id = "tweets">
                      
-            <div class="row postIndividual">
-
-                <div class="col-1">
-                    <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
-                </div>
-
-               
-                
-                <div class="col-10">
-
-                    <div class="row">
-                        <a href="" class = "mandaPerfil">Fernando Gross  -  @fgross  -  14/10/23</a>  
-                    </div>
-
-
-                    <div class="row" id = "tweetText">
-                        Si la vida te da la espalda pegale una nalgada (para pensar amigos) 
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class = "filaAbajo">
-
-
-                            <a href="#" class = "respuestas">
-                            <label for="" class = "textos sigue init">Likes: </label>
-                            <label for="" class = "textos sigue">2</label>
-                            </a>
-
-                            <label for="" class = "textos sigue init abajo">ReTECs: </label>
-                            <label for="" class = "textos sigue">200</label>
-
-                            <a href="#" class = "respuestas" onclick = "prueba()">
-                                <label for="" class = "textos sigue init abajo">Respuestas: </label>
-                                <label for="" class = "textos sigue">20</label>
-                            </a>
-
-                            
-                        </div> 
-                    </div>
-
-                </div>
-               
-
-            </div>
+           
             
 
 
             
-            <div class="row postIndividual">
-
-                <div class="col-1">
-                    <a href="#" ><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
-                </div>
-
-               
-                
-                <div class="col-10">
-                    <div class="row">
-                       <a href="#" class = "mandaPerfil">Fernando Gross  -  @fgross  -  14/10/23</a>  
-                    </div>
-
-                    <div class="row" id = "tweet" gustado = "no" retwiteado = "no">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Integer a nisl dapibus dolor egestas sollicitudin. 
-                        Nam vitae vulputate turpis. Sed accumsan, justo ac blandit tincidunt, 
-                        odio ante vehicula velit, et sagittis risus nisl ut mi. Mauris sodales nisl enim, sit amet lacinia erat ultricies eget. 
-                        Nunc congue porta diam, ac ultrices ligula mattis eu. Vivamus sit amet scelerisque arcu. Morbi dictum purus nec turpis hendrerit euismod. 
-                        Aliquam erat volutpat. Sed dapibus quis erat non vehicula.
-                    </div>
-
-                    <div class="row">
-                        <div class = "filaAbajo"> 
-                            <a href="#" class = "respuestas">
-                            <label for="" class = "textos sigue init">Likes: </label>
-                            <label for="" class = "textos sigue">2</label>
-                            </a>
-
-                            <label for="" class = "textos sigue init abajo">ReTECs: </label>
-                            <label for="" class = "textos sigue">200</label>
-
-                            <a href="#" class = "respuestas">
-                                <label for="" class = "textos sigue init abajo">Respuestas: </label>
-                                <label for="" class = "textos sigue">20</label>
-                            </a>
-                            
-                        </div>
-                        
-
-                    </div>
-
-
-                </div>
-               
-
-            </div>
-
-
+            
+           
         </div>
     </section>
 
@@ -176,22 +95,23 @@
 
 
   
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- Modal Busqueda -->
+    <div class="modal fade" id="modalBusqueda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Busqueda de personas</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body caja">
             Ingrese el @user de la persona a buscar
-            </div>
+            
 
-            <div class="mb-3 caja">
-                <input class="form-control me-2" id="searchbar" onkeyup="buscarPersona()" type="text" name="search" placeholder="Buscar personas">
-                <div class="list-group listas" id="list-tab" role="tablist">
-        
+                <div class="mb-3">
+                    <input class="form-control me-2 barraBusqueda" id="searchbar" onkeyup="buscarPersona()" type="text" name="search" placeholder="Buscar personas">
+                    <div class="list-group listas" id="list-tab" role="tablist">
+                        
+                    </div>
                 </div>
             </div>
             
@@ -201,7 +121,127 @@
         </div>
         </div>
     </div>
+
+    <!-- Modal Crear Post -->
+    <div class="modal fade" id="modalCrearPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crea tu nuevo TwiTEC</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body caja">
+                
+                <form id="enviarPost">
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">¿Qué está pasando en el TEC?</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+                
+            </div>
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="enviarPost()">Enviar TwiTEC</button>
+            </div>
+        </div>
+        </div>
+    </div>
   
+    <!-- Modal Crear Comentario -->
+    <div class="modal fade" id="modalCrearComentario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">¿Qué vas a comentar?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body caja">
+                
+                <form id="enviarComentario">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="textoComentario"></textarea>
+                    </div>
+                </form>
+                
+            </div>
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="enviarComentario()">Enviar comentario</button>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Seguidores -->
+    <div class="modal fade" id="modalSeguidores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Lista de seguidores</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body caja">
+                
+                <div class="row cajaSeguidor">
+                    <div class="col-1">
+                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
+                    </div>
+                
+                    <div class="col-10">
+                        <div class="row">
+                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
+                        </div>
+                        <div class="row" id="textoEstado">
+                            Siempre fino, siempre wapo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row cajaSeguidor">
+                    <div class="col-1">
+                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
+                    </div>
+                
+                    <div class="col-10">
+                        <div class="row">
+                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
+                        </div>
+                        <div class="row" id="textoEstado">
+                            Siempre fino, siempre wapo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row cajaSeguidor">
+                    <div class="col-1">
+                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
+                    </div>
+                
+                    <div class="col-10">
+                        <div class="row">
+                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
+                        </div>
+                        <div class="row" id="textoEstado">
+                            Siempre fino, siempre wapo
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 </body>
 </html>

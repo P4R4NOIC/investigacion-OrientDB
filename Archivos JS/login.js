@@ -1,31 +1,34 @@
 
 //FUNCION EN LOGIN
 function validaCorreo() {
-    location.href = "../Archivos HTML/landingPage.html"  
-    var email = document.getElementById("inputEmail").value
-    var correoEstudianteValido = /^[\w-\.]+@(estudiantec.cr)$/
+    
+    var arroba = document.getElementById("inputEmail").value
+    var arrobaValido = /^@?(\w){1,15}$/
     var contrasena = document.getElementById("inputPassword").value
     
 
     //BORRAR-----------------------
-    if (correoEstudianteValido.test(email) && contrasena != "")
+    /* if (correoValido.test(arroba) && contrasena != "")
     {
         localStorage.setItem("conexion", "ESTUD")
-        localStorage.setItem("usuario", email)
-        location.href = "../../Archivos HTML/Archivos Estudiante/lobbyEstudiante.html"
+        localStorage.setItem("usuario", arroba)
+        location.href = "../Archivos HTML/landingPage.html"  
         // ------------------------------------------------------------------------------- //
       
-    } 
+    }  */
     
     //BORRAR------------------------
     
+    if (arrobaValido.test(arroba)){
+        logIn(arroba,contrasena);
+    }
 }
 
-function logInEstudiante(email,contrasena){
-    var nombreDeUsuario = email;
+function logIn(arroba,contrasena){
+    var nombreDeUsuario = arroba;
     let inputUsuario;
     // Hacer la solicitud GET al servidor
-    fetch('http://localhost:3000/Usuario/'+nombreDeUsuario)
+    fetch('http://localhost:3000/usuario/'+nombreDeUsuario)
     .then(response => {
         if (!response.ok) {
             activarModalError("No se pudo obtener la información del usuario");
@@ -41,8 +44,7 @@ function logInEstudiante(email,contrasena){
         var usuario = JSON.parse(usuarioJSON);
         var contraUsuario = usuario.contra; 
         if(contrasena === contraUsuario){
-            localStorage.setItem("conexion", "ESTUD")
-            location.href = "../../Archivos HTML/Archivos Estudiante/lobbyEstudiante.html"
+            location.href = "../Archivos HTML/landingPage.html"
         }else{
             localStorage.removeItem("usuario");
             activarModalError("La contraseña o el usuario son invalidos");
