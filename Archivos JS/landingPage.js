@@ -1,4 +1,5 @@
 var actual;
+var tweetsPropiosCargados = new Boolean(false);
 var todosLosTweets = [{
                 "@rid":"#al",
                 "@class":"Tweet",
@@ -37,16 +38,52 @@ var todosLosTweets = [{
             ];
 
 
+var infoPersona = {"seguidores":"5", "siguiendo":"4", "estado":"Cuando yo la vi", "fechaNacimiento":"01/05/1999", "nombreUsuario":"Juan Perez", "Username":"@jPerez"};
 
+var tweetsDeUno = [{
+    "@rid":"#al",
+    "@class":"Tweet",
+    "FechaPublicacion":"2023-02-22 00:00:00",
+    "Retweets":"6",
+    "Comentarios":[],
+    "Texto":"Demasiado Trabajo",
+    "nombreUsuario":"Fernando Gross",
+    "Username":"@jperez"
+    },
+    
 
-var todosDeUno = {};
+    {
+        "@rid":"#al2",
+        "@class":"Tweet",
+        "FechaPublicacion":"2023-02-22 00:00:00",
+        "Retweets":"8",
+        "Comentarios":[{"Username":"@fgross",
+                        "fechaComentado":"2023-02-22 00:00:00",
+                        "nombreUsuario":"Fernando Gross", 
+                        "comentario":"Chupela"},
+
+                        {"Username":"@fgross",
+                        "fechaComentado":"2023-02-22 00:00:00",
+                        "nombreUsuario":"Fernando Gross", 
+                        "comentario":"Roberto"},
+
+                        {"Username":"@fgross",
+                        "fechaComentado":"2023-02-22 00:00:00",
+                        "nombreUsuario":"Fernando Gross", 
+                        "comentario":"Trabaje"}],
+        "Texto":"Devuelveme a mi chica",
+        "nombreUsuario":"Fernando Gross",
+        "Username":"@jperez"
+    }];
+
 
 function cargarPagina(){
     
     //autenticar()
     
-    
+    tweetsPropiosCargados = false;
     cargarPersonas(); //pedirPersonas(); sustituir cuando el metodo funcione
+    cargarSeguidores(); //pedirSeguidores();
     console.log("sirve")
     cargaTodosTweets();
     
@@ -79,7 +116,7 @@ function prueba(){
    var headder = nombreUsuario + "  " +  "- " + arroba + "  " + "-" + "  " +fechaPubli;
 
    cargaTodosTweets();
-   haceTweet(tweet, headder, numLikes, numRetweets, numComments);
+
 }
 
 function cargaTodosTweets(){
@@ -88,12 +125,12 @@ function cargaTodosTweets(){
         var numRetweets = parseInt(todosLosTweets[i]["Retweets"]);
         var numComments = todosLosTweets[i]["Comentarios"].length;
         var headder = todosLosTweets[i]["nombreUsuario"] + "  " +  "- " + todosLosTweets[i]["Username"] + "  " + "-" + "  " + todosLosTweets[i]["FechaPublicacion"]
-        haceTweet(tweet, headder, numRetweets, numComments, todosLosTweets[i]["Comentarios"], todosLosTweets[i]["@rid"]);
+        haceTweet(tweet, headder, numRetweets, numComments, todosLosTweets[i]["Comentarios"], todosLosTweets[i]["@rid"], todosLosTweets[i]["Username"]);
         
     }
 }
 
-function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, rid){
+function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, rid, arroba){
     
     var div1 = document.createElement("div");
     var div2 = document.createElement("div");
@@ -123,7 +160,7 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
     var label7 = document.createElement("label");
 
     div1.classList = "row postIndividual";
-
+    div1.id = "tweet"
     div2.classList = "col-1";
 
     a1.href = "#";
@@ -143,7 +180,47 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
     a2.href = "#";
     a2.classList = "mandaPerfil";
     a2.textContent = headder; 
+   
+    a2.onclick = function(){
 
+
+        //llamada a la base con el aroba 
+        document.getElementById("seguidoresPersona").textContent = infoPersona["seguidores"];
+        document.getElementById("siguiendoPersona").textContent = infoPersona["siguiendo"];
+        document.getElementById("estadoPersona").textContent = infoPersona["estado"];
+        document.getElementById("fecNacPersona").textContent = infoPersona["fechaNacimiento"];
+        document.getElementById("usrNamePersona").textContent = infoPersona["nombreUsuario"];
+        document.getElementById("arrPersona").textContent = infoPersona["Username"];
+
+        document.getElementById("botonPerfil").textContent = "Seguir";
+        document.getElementById("botonPerfil").classList = "boton botonCrea botonSeguir"
+        document.getElementById("botonPerfil").onclick = function(){
+            seguirPersona(arroba);
+        }
+        
+        if(tweetsPropiosCargados == true){
+            for(var i = 0; i < tweetsDeUno.length; i++){
+                document.getElementById("tweet").remove();
+            }
+        }
+        else{
+            for(var i = 0; i < todosLosTweets.length; i++){
+                document.getElementById("tweet").remove();
+            }
+        }
+        
+        
+        for(var i = 0; i < tweetsDeUno.length; i++){
+            var tweet = tweetsDeUno[i]["Texto"];
+            var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+            var numComments = tweetsDeUno[i]["Comentarios"].length;
+            var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+            haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
+            
+        }
+        tweetsPropiosCargados = true;
+    }
+    
     div4.appendChild(a2);
     div3.appendChild(div4);
 
@@ -280,4 +357,62 @@ function haceComentario(nombreUsuario, arroba, fecha, comentario){
     div.appendChild(label1);
     div.appendChild(label2);
     return div;
+}
+
+
+function seguirPersona(arroba){
+    console.log(arroba);
+}
+
+function cargaTweetsPropios(){
+
+    if(tweetsPropiosCargados == true){
+
+        for(var i = 0; i < tweetsDeUno.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    else{
+        for(var i = 0; i < todosLosTweets.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    
+
+    for(var i = 0; i < tweetsDeUno.length; i++){
+        var tweet = tweetsDeUno[i]["Texto"];
+        var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+        var numComments = tweetsDeUno[i]["Comentarios"].length;
+        var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
+        
+    }
+    tweetsPropiosCargados = true;
+
+    
+}
+
+function cargaRetweetsPropios(){
+    if(tweetsPropiosCargados == true){
+
+        for(var i = 0; i < tweetsDeUno.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    else{
+        for(var i = 0; i < todosLosTweets.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    
+
+    for(var i = 0; i < tweetsDeUno.length; i++){
+        var tweet = tweetsDeUno[i]["Texto"];
+        var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+        var numComments = tweetsDeUno[i]["Comentarios"].length;
+        var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
+        
+    }
+    tweetsPropiosCargados = true;
 }

@@ -80,7 +80,8 @@
  }
 
  .mandaPerfil:hover{
-    color: white;
+    color: black;
+    transition: 0.5s;
     text-decoration: none;
  }
 
@@ -95,6 +96,7 @@
 
  .respuestas:hover{
     text-decoration: none;
+    transition: 0.5s;
     color:rgb(136, 185, 215);
    
  }
@@ -120,6 +122,11 @@
     position: absolute;
     margin-left: 140px;
     
+ }
+
+ .botonSeguir{
+   font-size: 25px;
+   padding-top: 5px;
  }
 
  .comentario{

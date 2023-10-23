@@ -30,8 +30,8 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                         <a class="nav-link" aria-current="page" href="landingPage.html">Inicio</a>
-                        <a class="nav-link" href="#">TECs</a>
-                        <a class="nav-link" href="#">ReTECs</a>
+                        <a class="nav-link" href="#" onclick = "cargaTweetsPropios()">TECs</a>
+                        <a class="nav-link" href="#" onclick = "cargaRetweetsPropios()">ReTECs</a>
                         <a class="nav-link" href="#" onclick="activarModalBusqueda()">Buscar @Usuario</a>
                         <a class="nav-link" href="#" onclick="activarModalVerSeguidores()">Seguidores</a>
                         
@@ -50,30 +50,30 @@
             <div class = "textoPerfil">
                 <div>
                     <label for="" class = "textos sigue init">Seguidores: </label>
-                    <label for="" class = "textos sigue">3</label>
+                    <label for="" class = "textos sigue" id = "seguidoresPersona">3</label>
                 </div>
                 <div>
                     <label for="" class = "textos sigue init">Siguiendo: </label>
-                    <label for="" class = "textos sigue">2</label>
+                    <label for="" class = "textos sigue" id = "siguiendoPersona">2</label>
                 </div>
                 <div>
-                    <label for="" class = "textos">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero rem rerum ut eum iusto et necessitatibus non impedit optio, dolorum incidunt consequuntur sit temporibus, placeat soluta neque beatae, ipsa debitis.</label>
+                    <label for="" class = "textos" id = "estadoPersona">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero rem rerum ut eum iusto et necessitatibus non impedit optio, dolorum incidunt consequuntur sit temporibus, placeat soluta neque beatae, ipsa debitis.</label>
                 </div>
                 <div id = "p">
                     <label for="" class = "textos sigue init">Fecha de Nacimiento: </label>
-                    <label for="" class = "textos sigue">06/12/2002</label>
+                    <label for="" class = "textos sigue" id = "fecNacPersona">06/12/2002</label>
                 </div>
                 <div>
                     <label for="" class = "textos sigue init">Nombre de Usuario: </label>
-                    <label for="" class = "textos sigue">Fernando Gross</label>
+                    <label for="" class = "textos sigue" id = "usrNamePersona">Fernando Gross</label>
                 </div>
                 <div>
                     <label for="" class = "textos sigue init">Usuario: </label>
-                    <label for="" class = "textos sigue">@fgross</label>
+                    <label for="" class = "textos sigue" id = "arrPersona">@fgross</label>
                 </div>
                
             </div>
-            <a class="boton botonCrea" type="submit" onclick="activarModalCrearPost()" role="button">+</a>
+            <a class="boton botonCrea" type="submit" onclick="activarModalCrearPost()" role="button" id = "botonPerfil">+</a>
         </div>
 
         
@@ -187,53 +187,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body caja">
-                
-                <div class="row cajaSeguidor">
-                    <div class="col-1">
-                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
-                    </div>
-                
-                    <div class="col-10">
-                        <div class="row">
-                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
-                        </div>
-                        <div class="row" id="textoEstado">
-                            Siempre fino, siempre wapo
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row cajaSeguidor">
-                    <div class="col-1">
-                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
-                    </div>
-                
-                    <div class="col-10">
-                        <div class="row">
-                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
-                        </div>
-                        <div class="row" id="textoEstado">
-                            Siempre fino, siempre wapo
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row cajaSeguidor">
-                    <div class="col-1">
-                        <a href="#"><img src="../Miscelaneo/person.png" alt="Foto Perfil" class="img-thumbnail fotoPerfilPeq"></a>
-                    </div>
-                
-                    <div class="col-10">
-                        <div class="row">
-                            <a href="#" class="mandaPerfil">Roberto Vindas  - @rvindas</a>
-                        </div>
-                        <div class="row" id="textoEstado">
-                            Siempre fino, siempre wapo
-                        </div>
-                    </div>
-                </div>
-                
+            <div class="modal-body caja contenedorSeguidores">
+                <!-- AQUI VAN LOS SEGUIDORES GENERADOS AUTOMATICAMENTE -->
             </div>
 
             <div class="modal-footer">

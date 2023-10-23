@@ -1,25 +1,19 @@
 
 var jsonData = [
     {
-    "username": "fgross",
-    "nombre": "Fernando",
-    "segundonombre": "Jose",
-    "primerapellido": "Gross",
-    "segundoapellido": "Hernandez"
+    "username": "gjimenez",
+    "nombre": "Gabriel",
+    "descripcion": "Duende tu sabes que la amo"
     },
     {
     "username": "rvindas",
-    "nombre": "Roberto",
-    "segundonombre": "Daniel",
-    "primerapellido": "Vindas",
-    "segundoapellido": "Hernandez"
+    "nombre": "Roberto Vindas",
+    "descripcion": "Jugador profesional de UNO"
     },
     {
     "username": "dylantables",
     "nombre": "Dylan",
-    "segundonombre": "Andrey",
-    "primerapellido": "Mora",
-    "segundoapellido": "Corrales"
+    "descripcion": "Sin descripcion"
     }
 ];
 
@@ -63,26 +57,22 @@ function pedirPersonas(){
 
 function cargarPersonas(){
     let todosUsuarios = JSON.parse(localStorage.getItem("todosUsuarios"));
-    for (i = 0; i < todosUsuarios.length; i++) {
-        var persona = todosUsuarios[i].nombre + " " + todosUsuarios[i].segundonombre + " " + todosUsuarios[i].primerapellido + " " + todosUsuarios[i].segundoapellido ;
+    todosUsuarios.forEach(function (usuario) {
+        var persona = usuario.nombre + " - @" + usuario.username;
         var ele = document.createElement("a")
         ele.classList = "personas list-group-item list-group-item-dark"
         ele.href = "#";
         ele.role = "tab";
         ele.innerHTML = persona;
-        ele.title = todosUsuarios[i].username;
+        ele.title = usuario.username;
         ele.onclick = function (){
             
-            actualizarVistaPerfilActual();
+            actualizarVistaPerfilActual(usuario.username);
             
         };
         document.querySelector(".listas").appendChild(ele);
-    }
+    })
 
-}
-
-function actualizarVistaPerfilActual(){
-    location.href = "#";
 }
 
 
