@@ -82,8 +82,8 @@ function cargarPagina(){
     //autenticar()
     
     tweetsPropiosCargados = false;
-    cargarPersonas(); //pedirPersonas(); sustituir cuando el metodo funcione
-    cargarSeguidores(); //pedirSeguidores();
+    pedirPersonas(); 
+    pedirSeguidores();
     console.log("sirve")
     cargaTodosTweets();
     

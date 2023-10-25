@@ -1,24 +1,24 @@
 
-var jsonData = [
-    {
-    "username": "gjimenez",
-    "nombre": "Gabriel",
-    "descripcion": "Duende tu sabes que la amo"
-    },
-    {
-    "username": "rvindas",
-    "nombre": "Roberto",
-    "descripcion": "Jugador profesional de UNO"
-    },
-    {
-    "username": "dylantables",
-    "nombre": "Dylan",
-    "descripcion": "Sin descripcion"
-    }
-];
+// var jsonData = [
+//     {
+//     "username": "gjimenez",
+//     "nombre": "Gabriel",
+//     "descripcion": "Duende tu sabes que la amo"
+//     },
+//     {
+//     "username": "rvindas",
+//     "nombre": "Roberto",
+//     "descripcion": "Jugador profesional de UNO"
+//     },
+//     {
+//     "username": "dylantables",
+//     "nombre": "Dylan",
+//     "descripcion": "Sin descripcion"
+//     }
+// ];
 
-var jsonString = JSON.stringify(jsonData);
-localStorage.setItem("todosSeguidores", jsonString);
+// var jsonString = JSON.stringify(jsonData);
+// localStorage.setItem("todosSeguidores", jsonString);
 
 function activarModalVerSeguidores(){
     var myModalEl = document.querySelector('#modalSeguidores')
@@ -27,12 +27,15 @@ function activarModalVerSeguidores(){
 }
 
 function pedirSeguidores(){
+    let usuarioJSON = localStorage.getItem("usuario");
+    var usuario = JSON.parse(usuarioJSON);
+    var username = usuario[0].Username; 
     let datosRecibidos;
     // ------------------------------- FETCH ESTUDIANTES
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
     // Hacer la solicitud GET al servidor
-    fetch('http://localhost:3000/Todos-Usuarios')
+    fetch('http://localhost:3000/seguidores/'+username)
     .then(response => {
         if (!response.ok) {
             alert('No se pudo obtener la información del usuario');
@@ -66,8 +69,8 @@ function cargarSeguidores(){
 
         a_element.classList = "mandaPerfil";
         a_element.href = "#";
-        a_element.innerHTML = seguidor.nombre + " - @" + seguidor.username;
-        a_element.setAttribute("arroba", seguidor.username);
+        a_element.innerHTML = seguidor.NombreUsuario + " - @" + seguidor.Username;
+        a_element.setAttribute("arroba", seguidor.Username);
         a_element.onclick = function (){
             
             actualizarVistaPerfilActual(a_element.getAttribute("arroba"));
@@ -78,7 +81,7 @@ function cargarSeguidores(){
         row.classList = "row";
 
         secondRow.classList = "row";
-        secondRow.innerHTML = seguidor.descripcion;
+        secondRow.innerHTML = seguidor.Estado;
 
         col10.appendChild(row);
         col10.appendChild(secondRow);

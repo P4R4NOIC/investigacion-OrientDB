@@ -1,24 +1,23 @@
 
-var jsonData = [
-    {
-    "username": "gjimenez",
-    "nombre": "Gabriel",
-    "descripcion": "Duende tu sabes que la amo"
-    },
-    {
-    "username": "rvindas",
-    "nombre": "Roberto Vindas",
-    "descripcion": "Jugador profesional de UNO"
-    },
-    {
-    "username": "dylantables",
-    "nombre": "Dylan",
-    "descripcion": "Sin descripcion"
-    }
-];
-
-var jsonString = JSON.stringify(jsonData);
-localStorage.setItem("todosUsuarios", jsonString);
+// var jsonData = [
+//     {
+//     "username": "gjimenez",
+//     "nombre": "Gabriel",
+//     "descripcion": "Duende tu sabes que la amo"
+//     },
+//     {
+//     "username": "rvindas",
+//     "nombre": "Roberto Vindas",
+//     "descripcion": "Jugador profesional de UNO"
+//     },
+//     {
+//     "username": "dylantables",
+//     "nombre": "Dylan",
+//     "descripcion": "Sin descripcion"
+//     }
+// // ];
+// var jsonString = JSON.stringify(jsonData);
+// localStorage.setItem("todosUsuarios", jsonString);
   
 
 
@@ -36,7 +35,7 @@ function pedirPersonas(){
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
     // Hacer la solicitud GET al servidor
-    fetch('http://localhost:3000/Todos-Usuarios')
+    fetch('http://localhost:3000/usuarios')
     .then(response => {
         if (!response.ok) {
             alert('No se pudo obtener la información del usuario');
@@ -56,21 +55,27 @@ function pedirPersonas(){
 }
 
 function cargarPersonas(){
+    let usuarioJSON = localStorage.getItem("usuario");
+    var usuario = JSON.parse(usuarioJSON);
+    var usuarioConectado = usuario[0].Username; 
+
     let todosUsuarios = JSON.parse(localStorage.getItem("todosUsuarios"));
     todosUsuarios.forEach(function (usuario) {
-        var persona = usuario.nombre + " - @" + usuario.username;
-        var ele = document.createElement("a")
-        ele.classList = "personas list-group-item list-group-item-dark"
-        ele.href = "#";
-        ele.role = "tab";
-        ele.innerHTML = persona;
-        ele.title = usuario.username;
-        ele.onclick = function (){
-            
-            actualizarVistaPerfilActual(usuario.username);
-            
-        };
-        document.querySelector(".listas").appendChild(ele);
+        if (usuarioConectado != usuario.Username){
+            var persona = usuario.NombreUsuario + " - @" + usuario.Username;
+            var ele = document.createElement("a")
+            ele.classList = "personas list-group-item list-group-item-dark"
+            ele.href = "#";
+            ele.role = "tab";
+            ele.innerHTML = persona;
+            ele.title = usuario.Username;
+            ele.onclick = function (){
+                
+                actualizarVistaPerfilActual(usuario.Username);
+                
+            };
+            document.querySelector(".listas").appendChild(ele);
+        }
     })
 
 }
