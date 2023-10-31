@@ -73,7 +73,7 @@ function cargarSeguidores(){
         a_element.setAttribute("arroba", seguidor.Username);
         a_element.onclick = function (){
             
-            actualizarVistaPerfilActual(a_element.getAttribute("arroba"));
+            actualizarVistaPerfilActualLlamada(a_element.getAttribute("arroba"));
             
         };
 

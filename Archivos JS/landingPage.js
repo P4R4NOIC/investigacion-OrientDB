@@ -1,80 +1,11 @@
 var actual;
 var tweetsPropiosCargados = new Boolean(false);
-var todosLosTweets = [{
-                "@rid":"#al",
-                "@class":"Tweet",
-                "FechaPublicacion":"2023-02-22 00:00:00",
-                "Retweets":"6",
-                "Comentarios":[],
-                "Texto":"Demasiado Trabajo",
-                "nombreUsuario":"Fernando Gross",
-                "Username":"@fgross"
-                },
-                
-
-                {
-                    "@rid":"#al2",
-                    "@class":"Tweet",
-                    "FechaPublicacion":"2023-02-22 00:00:00",
-                    "Retweets":"8",
-                    "Comentarios":[{"Username":"@fgross",
-                                    "fechaComentado":"2023-02-22 00:00:00",
-                                    "nombreUsuario":"Fernando Gross", 
-                                    "comentario":"Chupela"},
-
-                                    {"Username":"@fgross",
-                                    "fechaComentado":"2023-02-22 00:00:00",
-                                    "nombreUsuario":"Fernando Gross", 
-                                    "comentario":"Roberto"},
-
-                                    {"Username":"@fgross",
-                                    "fechaComentado":"2023-02-22 00:00:00",
-                                    "nombreUsuario":"Fernando Gross", 
-                                    "comentario":"Trabaje"}],
-                    "Texto":"Devuelveme a mi chica",
-                    "nombreUsuario":"Roberto Vindas",
-                    "Username":"@rvindas"
-                }
-            ];
+var todosLosTweets = [];
 
 
-var infoPersona = {"seguidores":"5", "siguiendo":"4", "estado":"Cuando yo la vi", "fechaNacimiento":"01/05/1999", "nombreUsuario":"Juan Perez", "Username":"@jPerez"};
+var infoPersona = {};
 
-var tweetsDeUno = [{
-    "@rid":"#al",
-    "@class":"Tweet",
-    "FechaPublicacion":"2023-02-22 00:00:00",
-    "Retweets":"6",
-    "Comentarios":[],
-    "Texto":"Demasiado Trabajo",
-    "nombreUsuario":"Fernando Gross",
-    "Username":"@jperez"
-    },
-    
-
-    {
-        "@rid":"#al2",
-        "@class":"Tweet",
-        "FechaPublicacion":"2023-02-22 00:00:00",
-        "Retweets":"8",
-        "Comentarios":[{"Username":"@fgross",
-                        "fechaComentado":"2023-02-22 00:00:00",
-                        "nombreUsuario":"Fernando Gross", 
-                        "comentario":"Chupela"},
-
-                        {"Username":"@fgross",
-                        "fechaComentado":"2023-02-22 00:00:00",
-                        "nombreUsuario":"Fernando Gross", 
-                        "comentario":"Roberto"},
-
-                        {"Username":"@fgross",
-                        "fechaComentado":"2023-02-22 00:00:00",
-                        "nombreUsuario":"Fernando Gross", 
-                        "comentario":"Trabaje"}],
-        "Texto":"Devuelveme a mi chica",
-        "nombreUsuario":"Fernando Gross",
-        "Username":"@jperez"
-    }];
+var tweetsDeUno = [];
 
 
 function cargarPagina(){
@@ -82,10 +13,11 @@ function cargarPagina(){
     //autenticar()
     
     tweetsPropiosCargados = false;
+    
     pedirPersonas(); 
     pedirSeguidores();
-    console.log("sirve")
-    cargaTodosTweets();
+    pedirTodosTweets();
+    cargaDatosUsuario();
     
 }
 
@@ -103,7 +35,7 @@ function prueba(){
 
    document.getElementById("p").appendChild(label);
 
-   console.log(document.getElementById("algo").getAttribute("gustado"))
+
 
    var tweet = "este es el cuerpo del tweet";
    var nombreUsuario = "Fernando Gross";
@@ -121,14 +53,35 @@ function prueba(){
 
 function cargaTodosTweets(){
     for(var i = 0; i < todosLosTweets.length; i++){
+        
         var tweet = todosLosTweets[i]["Texto"];
         var numRetweets = parseInt(todosLosTweets[i]["Retweets"]);
+
+        if(todosLosTweets[i]["Comentarios"] == null){
+            todosLosTweets[i]["Comentarios"] = [];
+        }
         var numComments = todosLosTweets[i]["Comentarios"].length;
         var headder = todosLosTweets[i]["nombreUsuario"] + "  " +  "- " + todosLosTweets[i]["Username"] + "  " + "-" + "  " + todosLosTweets[i]["FechaPublicacion"]
+        
         haceTweet(tweet, headder, numRetweets, numComments, todosLosTweets[i]["Comentarios"], todosLosTweets[i]["@rid"], todosLosTweets[i]["Username"]);
         
     }
 }
+
+function cargaDatosUsuario(){
+
+        infoPersona = JSON.parse(localStorage.getItem("usuario"));
+    
+      
+        document.getElementById("seguidoresPersona").textContent = infoPersona[0]["nSeguidores"];
+        document.getElementById("siguiendoPersona").textContent = infoPersona[0]["nSeguidos"];
+        document.getElementById("estadoPersona").textContent = infoPersona[0]["Estado"];
+        document.getElementById("fecNacPersona").textContent = infoPersona[0]["FechaNacimiento"];
+        document.getElementById("usrNamePersona").textContent = infoPersona[0]["NombreUsuario"];
+        document.getElementById("arrPersona").textContent = infoPersona[0]["Username"];
+}
+
+
 
 function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, rid, arroba){
     
@@ -183,42 +136,10 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
    
     a2.onclick = function(){
 
-
-        //llamada a la base con el aroba 
-        document.getElementById("seguidoresPersona").textContent = infoPersona["seguidores"];
-        document.getElementById("siguiendoPersona").textContent = infoPersona["siguiendo"];
-        document.getElementById("estadoPersona").textContent = infoPersona["estado"];
-        document.getElementById("fecNacPersona").textContent = infoPersona["fechaNacimiento"];
-        document.getElementById("usrNamePersona").textContent = infoPersona["nombreUsuario"];
-        document.getElementById("arrPersona").textContent = infoPersona["Username"];
-
-        document.getElementById("botonPerfil").textContent = "Seguir";
-        document.getElementById("botonPerfil").classList = "boton botonCrea botonSeguir"
-        document.getElementById("botonPerfil").onclick = function(){
-            seguirPersona(arroba);
-        }
-        
-        if(tweetsPropiosCargados == true){
-            for(var i = 0; i < tweetsDeUno.length; i++){
-                document.getElementById("tweet").remove();
-            }
-        }
-        else{
-            for(var i = 0; i < todosLosTweets.length; i++){
-                document.getElementById("tweet").remove();
-            }
-        }
-        
-        
-        for(var i = 0; i < tweetsDeUno.length; i++){
-            var tweet = tweetsDeUno[i]["Texto"];
-            var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
-            var numComments = tweetsDeUno[i]["Comentarios"].length;
-            var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
-            haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
-            
-        }
-        tweetsPropiosCargados = true;
+    
+        cargarDatosPersonaLlamada(arroba)
+       
+     
     }
     
     div4.appendChild(a2);
@@ -249,7 +170,11 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
     a6.href = "#";
     a6.onclick = function(){
         numRetweets++;
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+        var mandaActualizador = {"urid":usuario[0]["@rid"], "trid":rid, "contador":numRetweets};
+        actualizadorRetweets(JSON.stringify(mandaActualizador));
         label4.textContent = numRetweets;
+       
     }
 
 
@@ -270,14 +195,13 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
     a4.href = "#"
     a4.classList = "respuestas";
     a4.setAttribute("click", "no");
-   // console.log(a4.getAttribute("click"))
+
     a4.onclick = function(){
         if(a4.getAttribute("click") == "no"){
 
          
           
-            console.log(rid)
-            console.log(comentariosLista);
+         
             for(var i = 0; i < comentariosLista.length; i++){
                 var comentario = haceComentario(comentariosLista[i]["nombreUsuario"], comentariosLista[i]["Username"], comentariosLista[i]["fechaComentado"], comentariosLista[i]["comentario"]);
                 div1.appendChild(comentario);
@@ -346,6 +270,85 @@ function haceTweet(tweet, headder, numRetweets, numComments, comentariosLista, r
 
 }
 
+function actualizadorRetweets(mandaDatos){
+   
+    mandaDatosBaseRet(mandaDatos)
+
+}
+
+function mandaDatosBaseRet(mandaDatos){
+  
+
+    fetch('http://localhost:3000/retweetU', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: mandaDatos
+    })
+    .then(response => response.json()) 
+    .then(data => {
+       
+        alert(data.message);
+               
+    })
+    .catch(error => {
+        // Maneja errores si la solicitud falla
+        console.error('Error:', error);
+    });
+
+   //location.reload();
+}
+
+function cargarDatosPersonaLlamada(arroba){
+    pedirTodosTweetsDeUno(arroba);
+}
+
+function cargaRetweetsPropiosLlamada(){
+    pedirTodosReTweets(JSON.parse(localStorage.getItem("usuario"))[0]["Username"])
+}
+
+function cargarDatosPersona(arroba){
+    document.getElementById("seguidoresPersona").textContent = infoPersona[0]["nSeguidores"];
+    document.getElementById("siguiendoPersona").textContent = infoPersona[0]["nSeguidos"];
+    document.getElementById("estadoPersona").textContent = infoPersona[0]["Estado"];
+    document.getElementById("fecNacPersona").textContent = infoPersona[0]["FechaNacimiento"];
+    document.getElementById("usrNamePersona").textContent = infoPersona[0]["NombreUsuario"];
+    document.getElementById("arrPersona").textContent = infoPersona[0]["Username"];
+
+    document.getElementById("botonPerfil").textContent = "Seguir";
+    document.getElementById("botonPerfil").classList = "boton botonCrea botonSeguir"
+    document.getElementById("botonPerfil").onclick = function(){
+        seguirPersona(arroba);
+    }
+    
+    if(tweetsPropiosCargados == true){
+        for(var i = 0; i < tweetsDeUno.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    else{
+        for(var i = 0; i < todosLosTweets.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    
+    
+    for(var i = 0; i < tweetsDeUno.length; i++){
+        var tweet = tweetsDeUno[i]["Texto"];
+        var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+        if(tweetsDeUno[i]["Comentarios"] == null){
+            tweetsDeUno[i]["Comentarios"] = [];
+        }
+        var numComments = tweetsDeUno[i]["Comentarios"].length;
+        var headder = infoPersona[0]["nombreUsuario"] + "  " +  "- " + infoPersona[0]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
+        
+    }
+    tweetsPropiosCargados = true;
+}
+
+
 function haceComentario(nombreUsuario, arroba, fecha, comentario){
     var div = document.createElement("div");
     var label1 = document.createElement("label");
@@ -361,10 +364,51 @@ function haceComentario(nombreUsuario, arroba, fecha, comentario){
 
 
 function seguirPersona(arroba){
-    console.log(arroba);
+    var seguido = arroba;
+    var seguidor = JSON.parse(localStorage.getItem("usuario"))[0]["Username"];
+    var seguirJSON = {"Seguido": seguido, "Seguidor":seguidor};
+    var seguir = JSON.stringify(seguirJSON); 
+    fetch('http://localhost:3000/seguir', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:seguir // Asegúrate de que seguir sea un objeto JavaScript
+    })
+    .then(response => response.json()) // Convierte la respuesta a JSON si es aplicable
+    .then(data => {
+        // Aquí puedes acceder a la respuesta del servidor, que está en la variable 'data'
+        alert(data.message);
+        if(data.message==='Se ha seguido al usuario'){
+            var usuario = JSON.parse(localStorage.getItem("usuario"));
+            var seguidos = usuario[0]["nSeguidos"];
+            seguidos++;
+            usuario[0]["nSeguidos"] = seguidos;
+            localStorage.setItem("usuario", JSON.stringify(usuario))
+          
+            cargaDatosUsuario();
+        }else{
+            
+        }
+       
+        
+    })
+    .catch(error => {
+        // Maneja errores si la solicitud falla
+        console.error('Error:', error);
+    });
+    
 }
 
+function cargaTweetsPropiosLlamada(){
+    pedirTodosTweetsDeUno(JSON.parse(localStorage.getItem("usuario"))[0]["Username"]);
+}
+
+
+
 function cargaTweetsPropios(){
+
+  
 
     if(tweetsPropiosCargados == true){
 
@@ -382,8 +426,13 @@ function cargaTweetsPropios(){
     for(var i = 0; i < tweetsDeUno.length; i++){
         var tweet = tweetsDeUno[i]["Texto"];
         var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+        if(tweetsDeUno[i]["Comentarios"] == null){
+            tweetsDeUno[i]["Comentarios"] = [];
+        }
+
+        
         var numComments = tweetsDeUno[i]["Comentarios"].length;
-        var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        var headder = infoPersona[0]["NombreUsuario"] + "  " +  "- " + infoPersona[0]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
         haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
         
     }
@@ -393,6 +442,7 @@ function cargaTweetsPropios(){
 }
 
 function cargaRetweetsPropios(){
+  
     if(tweetsPropiosCargados == true){
 
         for(var i = 0; i < tweetsDeUno.length; i++){
@@ -407,12 +457,131 @@ function cargaRetweetsPropios(){
     
 
     for(var i = 0; i < tweetsDeUno.length; i++){
-        var tweet = tweetsDeUno[i]["Texto"];
-        var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
-        var numComments = tweetsDeUno[i]["Comentarios"].length;
-        var headder = tweetsDeUno[i]["nombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        var tweet = tweetsDeUno[i]["tweets"]["Texto"];
+
+        var numRetweets = parseInt(tweetsDeUno[i]["tweets"]["Retweets"]);
+
+       
+
+        if(tweetsDeUno[i]["tweets"]["Comentarios"] == null){
+          
+            var numComments = 0
+        }
+        else if(tweetsDeUno[i]["tweets"]["Comentarios"] != null){
+            var numComments = tweetsDeUno[i]["tweets"]["Comentarios"].length;
+        }
+        
+        
+        var headder = tweetsDeUno[i]["NombreUsuario"] + "  " +  "- " + tweetsDeUno[i]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["tweets"]["FechaPublicacion"]
+       
         haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
         
     }
     tweetsPropiosCargados = true;
 }
+
+
+function pedirTodosTweets(){
+    let datosRecibidos;
+  
+    fetch('http://localhost:3000/tweets')
+    .then(response => {
+        if (!response.ok) {
+            alert('No se pudo obtener la información del usuario');
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        datosRecibidos = data;
+        todosLosTweets = datosRecibidos;
+      
+        //localStorage.setItem("todosUsuarios", JSON.stringify(datosRecibidos))
+        cargaTodosTweets();
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+
+}
+
+
+function pedirTodosTweetsDeUno(arroba){
+    let datosRecibidos;
+  
+    fetch('http://localhost:3000/tweetsU/' + arroba)
+    .then(response => {
+        if (!response.ok) {
+            alert('No se pudo obtener la información del usuario');
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        datosRecibidos = data;
+        tweetsDeUno = datosRecibidos;
+        if(arroba == infoPersona[0]["Username"] ){
+            cargaTweetsPropios();
+        }
+        else{
+            pedirInfoDeUno(arroba);
+        }
+
+        
+      
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+
+}
+
+function pedirTodosReTweets(arroba){
+    let datosRecibidos;
+  
+    fetch('http://localhost:3000/retweetToPost/' + arroba)
+    .then(response => {
+        if (!response.ok) {
+            alert('No se pudo obtener la información del usuario');
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        datosRecibidos = data;
+        tweetsDeUno = datosRecibidos;
+        cargaRetweetsPropios();
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+
+}
+
+
+function pedirInfoDeUno(arroba){
+    var nombreDeUsuario = arroba;
+    let inputUsuario;
+    // Hacer la solicitud GET al servidor
+    fetch('http://localhost:3000/usuario/'+nombreDeUsuario)
+    .then(response => {
+        if (!response.ok) {
+            activarModalError("No se pudo obtener la información del usuario");
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        inputUsuario = data;
+        infoPersona = inputUsuario;
+        cargarDatosPersona(arroba);
+        
+
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+}
+
+  
+

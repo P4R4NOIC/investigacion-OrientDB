@@ -1,6 +1,18 @@
+const { json } = require("body-parser");
+
 var enviadoComentario = new Boolean(false);
 var mensaje;
 var distintivo = 0;
+var tweetReal;
+var fechaCompleta;
+var fecha = new Date();
+var dia = fecha.getDate();
+var mes = fecha.getMonth() + 1;
+var year = fecha.getFullYear();
+var horas = fecha.getHours();
+var minutos = fecha.getMinutes();
+var segundos = fecha.getSeconds();
+fechaCompleta = year + "-" + mes + "-" + dia + " " + horas + ":" + minutos + ":" + segundos;
 
 function activarModalCrearPost(){
     var myModalEl = document.querySelector('#modalCrearPost')
@@ -17,59 +29,86 @@ function enviarPost(){
     var dia = fecha.getDate();
     var mes = fecha.getMonth() + 1;
     var year = fecha.getFullYear();
-    var fechaCompleta = year + "-" + mes + "-" + dia;
+    var horas = fecha.getHours();
+    var minutos = fecha.getMinutes();
+    var segundos = fecha.getSeconds();
+    fechaCompleta = year + "-" + mes + "-" + dia + " " + horas + ":" + minutos + ":" + segundos;
     var headder = "nombre" + "  " +  "- " + "arr" + "  " + "-" + "  " + fechaCompleta;
     var numRetweets = 0;
     var numComments = 0;
-    var comentariosLista = [];
-    var tweetTemporal = {"@rid":"distintivo" + distintivo, "FechaPublicacion":fechaCompleta, "Retweets":"0", "Comentarios":[], "Texto":mensaje, "nombreUsuario":"nombre", "Username":"arr"};
-   
-    haceTweet(mensaje, headder, numRetweets, numComments, tweetTemporal["Comentarios"], "distintivo" + distintivo);
-    
+    var tweetTemporal = {"FechaPublicacion":fechaCompleta, "Retweets":"0", "Comentarios":[], "Texto":mensaje,"Username": infoPersona[0]["Username"]};
+    var tweetTemporal = JSON.stringify(tweetTemporal);
+    mandaTweet(tweetTemporal);
 
-     var tweetReal = {"FechaPublicacion":fechaCompleta, "Retweets":"0", "Comentarios":[], "Texto":mensaje, "nombreUsuario":"nombre", "Username":"arr"}; 
-    
-    todosLosTweets.push(tweetTemporal);
-    
+    //haceTweet(mensaje, headder, numRetweets, numComments, tweetTemporal["Comentarios"], "distintivo" + distintivo);
+      
+  //  todosLosTweets.push(tweetTemporal);
 
-    distintivo++;
+    //distintivo++;
+
+    location.reload();
+
     
 };
+
+
+
 
 function enviarComentario(){
-    var usrName = "fer";
-    var arr = "@fer";
-    var fecha = "12-12-12 00:00:00",
+    var usrName = infoPersona[0]["NombreUsuario"];
+    var arr = infoPersona[0]["Username"];
     mensaje = document.getElementById("textoComentario").value;
     enviadoComentario = true;
-
-    var comentarioNuevo = {"Username":arr, "fechaComentado":fecha, "nombreUsuario":usrName, "comentario":mensaje};
-    
-    if(document.getElementById(actual + "1").getAttribute("click") == "si"){
-        var comentario = haceComentario(usrName, arr, fecha, mensaje);
-        document.getElementById(actual +"2").appendChild(comentario);
-
-        for(var i = 0; i < todosLosTweets.length; i++){
-            if(todosLosTweets[i]["@rid"] == actual){
-                todosLosTweets[i]["Comentarios"].push(comentarioNuevo);
-                document.getElementById(actual + 3).textContent++;
-                
-            }
-        }
-
-    }
-
-    else if(document.getElementById(actual + "1").getAttribute("click") == "no"){
-        
-        for(var i = 0; i < todosLosTweets.length; i++){
+    var fecha = new Date();
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1;
+    var year = fecha.getFullYear();
+    var horas = fecha.getHours();
+    var minutos = fecha.getMinutes();
+    var segundos = fecha.getSeconds();
+    fechaCompleta = year + "-" + mes + "-" + dia + " " + horas + ":" + minutos + ":" + segundos;
+    var comentarioNuevo = {"Username":arr, "fechaComentado":fechaCompleta, "nombreUsuario":usrName, "comentario":mensaje};
+    console.log(comentarioNuevo)
+    for(var i = 0; i < todosLosTweets.length; i++){
             
-            if(todosLosTweets[i]["@rid"] == actual){
+        if(todosLosTweets[i]["@rid"] == actual){
                 
-                todosLosTweets[i]["Comentarios"].push(comentarioNuevo);
+            todosLosTweets[i]["Comentarios"].push(comentarioNuevo);
                 
-                document.getElementById(actual + 3).textContent++;
-            }
+            document.getElementById(actual + 3).textContent++;
+            var guardaBase = {"rid":todosLosTweets[i]["@rid"], "Comentarios":todosLosTweets[i]["Comentarios"]}
+            mandaComentario(JSON.stringify(guardaBase));
         }
     }
-    return mensaje;
+    
+    location.reload();
 };
+
+
+function mandaComentario(comentario){
+    var comentarioActual = comentario;
+
+    console.log(comentario);
+
+    fetch('http://localhost:3000/actualizarComentario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: comentarioActual
+    })
+}
+
+function mandaTweet(tweet){
+    var tweetActual = tweet;
+
+    console.log(tweet);
+
+    fetch('http://localhost:3000/tweet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: tweetActual
+    })
+}

@@ -70,8 +70,8 @@ function cargarPersonas(){
             ele.innerHTML = persona;
             ele.title = usuario.Username;
             ele.onclick = function (){
-                
-                actualizarVistaPerfilActual(usuario.Username);
+            
+                actualizarVistaPerfilActualLlamada(usuario.Username);
                 
             };
             document.querySelector(".listas").appendChild(ele);
@@ -96,3 +96,105 @@ function buscarPersona(){
     }
 }
 
+
+
+function actualizarVistaPerfilActualLlamada(arroba){
+    pedirTodosTweetsDeUno(arroba);
+}
+
+function actualizarVistaPerfilActual(arroba){
+    
+    document.getElementById("seguidoresPersona").textContent = infoPersona[0]["nSeguidores"];
+    document.getElementById("siguiendoPersona").textContent = infoPersona[0]["nSeguidos"];
+    document.getElementById("estadoPersona").textContent = infoPersona[0]["Estado"];
+    document.getElementById("fecNacPersona").textContent = infoPersona[0]["FechaNacimiento"];
+    document.getElementById("usrNamePersona").textContent = infoPersona[0]["NombreUsuario"];
+    document.getElementById("arrPersona").textContent = infoPersona[0]["Username"];
+
+    document.getElementById("botonPerfil").textContent = "Seguir";
+    document.getElementById("botonPerfil").classList = "boton botonCrea botonSeguir"
+    document.getElementById("botonPerfil").onclick = function(){
+        seguirPersona(arroba);
+    }
+    
+    if(tweetsPropiosCargados == true){
+        for(var i = 0; i < tweetsDeUno.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    else{
+        for(var i = 0; i < todosLosTweets.length; i++){
+            document.getElementById("tweet").remove();
+        }
+    }
+    
+    
+    for(var i = 0; i < tweetsDeUno.length; i++){
+        var tweet = tweetsDeUno[i]["Texto"];
+        var numRetweets = parseInt(tweetsDeUno[i]["Retweets"]);
+        if(tweetsDeUno[i]["Comentarios"] == null){
+            tweetsDeUno[i]["Comentarios"] = [];
+        }
+        var numComments = tweetsDeUno[i]["Comentarios"].length;
+        var headder = infoPersona[0]["nombreUsuario"] + "  " +  "- " + infoPersona[0]["Username"] + "  " + "-" + "  " + tweetsDeUno[i]["FechaPublicacion"]
+        haceTweet(tweet, headder, numRetweets, numComments, tweetsDeUno[i]["Comentarios"], tweetsDeUno[i]["@rid"], tweetsDeUno[i]["Username"]);
+        
+    }
+    tweetsPropiosCargados = true;
+}
+                
+
+function pedirInfoDeUno(arroba){
+    var nombreDeUsuario = arroba;
+    let inputUsuario;
+    // Hacer la solicitud GET al servidor
+    fetch('http://localhost:3000/usuario/'+nombreDeUsuario)
+    .then(response => {
+        if (!response.ok) {
+            activarModalError("No se pudo obtener la información del usuario");
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        inputUsuario = data;
+        infoPersona = inputUsuario;
+        cargarDatosPersona(arroba);
+        
+
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+}
+
+
+function pedirTodosTweetsDeUno(arroba){
+    let datosRecibidos;
+  
+    fetch('http://localhost:3000/tweetsU/' + arroba)
+    .then(response => {
+        if (!response.ok) {
+            alert('No se pudo obtener la información del usuario');
+        }
+        return response.json(); // Parsea la respuesta JSON
+    })
+    .then(data => {
+        // Datos recibidos
+        datosRecibidos = data;
+        tweetsDeUno = datosRecibidos;
+        if(arroba == infoPersona[0]["Username"] ){
+            cargaTweetsPropios();
+        }
+        else{
+            pedirInfoDeUno(arroba);
+        }
+
+        
+      
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del usuario:', error);
+    });
+
+}
